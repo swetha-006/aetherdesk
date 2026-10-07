@@ -3,12 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AetherDesk: Seated Hands-First Spatial Workspace</title>
+  <meta name="description" content="AetherDesk: Seated hands-first spatial workspace on Meta Quest 3/3S with embodied autonomous AI agent. Zero gorilla-arm fatigue within a 24-inch lap envelope.">
+  <meta name="theme-color" content="#090D12">
+  <title>AetherDesk: Seated Hands-First Spatial Workspace (Meta VR Start 2026)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="/assets/index-D0imB8tZ.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-DcADrHaT.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <script type="module" crossorigin src="/assets/index-opjbaXGu.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-whfmJVRc.css">
 </head>
 <body>
   <div id="canvas-container"></div>
@@ -20,67 +22,151 @@
       <div class="brand-block">
         <div class="logo-badge">META VR START 2026</div>
         <div>
-          <h1 class="brand-title">AetherDesk <span style="font-size: 14px; color: var(--accent-cyan);">Spatial Studio</span></h1>
+          <h1 class="brand-title">AetherDesk <span class="brand-subtitle">Spatial Studio</span></h1>
           <p class="brand-meta">Seated 24" Lap Envelope • Hands-First Zero Controllers • Embodied Agent</p>
         </div>
       </div>
       <div class="header-actions">
-        <button id="btn-sound-toggle" class="btn">🔊 Audio Active</button>
-        <button id="btn-reset" class="btn">↺ Reset Workspace</button>
-        <button id="enter-vr-btn" class="btn btn-primary">🥽 Enter WebXR (Meta Quest)</button>
+        <button id="btn-sound-toggle" class="btn" title="Toggle Procedural Audio Engine">🔊 Audio Active</button>
+        <button id="btn-reset" class="btn" title="Restore default competition workspace">↺ Reset</button>
+        <button id="enter-vr-btn" class="btn btn-primary" title="Launch WebXR Session on Meta Quest or Simulator">🥽 Enter WebXR (Meta Quest)</button>
       </div>
     </header>
 
     <!-- First 5 Minutes Onboarding Walkthrough ($25k Award Criterion) -->
-    <div class="hud-onboarding">
+    <div class="hud-onboarding" id="onboarding-card">
       <div class="onboarding-title">
         <span>⚡ First 5-Minute Routine</span>
-        <span style="font-size: 10px; color: var(--accent-amber);">SEATED ERGONOMICS</span>
+        <span id="onboarding-score" class="badge-amber">0/4 DONE</span>
       </div>
       <ul class="step-list">
-        <li class="step-item">
-          <span class="step-num">1</span>
-          <div><strong>Micro-Pinch Grab:</strong> Pinch index & thumb (or click-drag) to lift any tactile Data Capsule.</div>
+        <li class="step-item" id="step-1">
+          <span class="step-num" id="step-num-1">1</span>
+          <div>
+            <strong>Micro-Pinch Grab:</strong> Pinch index & thumb (or click-drag) to lift any 3D Capsule.
+          </div>
         </li>
-        <li class="step-item">
-          <span class="step-num">2</span>
-          <div><strong>Palm Palette:</strong> Turn left palm face-up (or press <kbd style="background:#21262d; padding:1px 4px; border-radius:3px;">P</kbd>) to summon radial quick actions.</div>
+        <li class="step-item" id="step-2">
+          <span class="step-num" id="step-num-2">2</span>
+          <div>
+            <strong>Palm Palette:</strong> Turn left palm face-up (or press <kbd>P</kbd>) for radial quick tools.
+          </div>
         </li>
-        <li class="step-item">
-          <span class="step-num">3</span>
-          <div><strong>Autonomous Agent Toss:</strong> Drag any card toward Aether's pedestal to trigger goal decomposition or synthesis.</div>
+        <li class="step-item" id="step-3">
+          <span class="step-num" id="step-num-3">3</span>
+          <div>
+            <strong>Autonomous Toss:</strong> Drag any card toward Aether's pedestal to decompose goal.
+          </div>
         </li>
-        <li class="step-item">
-          <span class="step-num">4</span>
-          <div><strong>Magnetic Dock Snap:</strong> Release cards near the curved lap tray slots to snap and save.</div>
+        <li class="step-item" id="step-4">
+          <span class="step-num" id="step-num-4">4</span>
+          <div>
+            <strong>Dock Alignment:</strong> Trigger Auto-Organize or magnetic snap to curved tray.
+          </div>
         </li>
       </ul>
+      <div id="onboarding-complete-banner" class="onboarding-success hidden">
+        ✨ <strong>Heuristic Mastered!</strong> Ready for Meta Quest submission.
+      </div>
     </div>
 
-    <!-- Agent Telemetry ($25k Agentic Interaction Award Criterion) -->
+    <!-- Agent Telemetry Card ($25k Agentic Interaction Award Criterion) -->
     <div class="hud-agent-card">
       <div class="agent-title">
         <span>🤖 Co-Pilot: Aether</span>
+        <span id="agent-state-pill" class="agent-state-badge">IDLE</span>
       </div>
-      <p class="agent-desc">Embodied autonomous spatial companion observing gaze, proximity, and card clusters.</p>
-      <div>
+      <div id="agent-status-text" class="agent-live-status">Aether Standing By</div>
+      <p class="agent-desc">Embodied autonomous spatial companion observing gaze, proximity, and tactile card clusters.</p>
+      <div class="agent-tags">
         <span class="spec-badge">Spatial Observer</span>
         <span class="spec-badge">Tool-Calling</span>
         <span class="spec-badge">Offline Fallback</span>
+      </div>
+      <div class="agent-log-mini" id="agent-log-mini">
+        <div class="log-line">> Co-pilot initialized in seated lap envelope.</div>
       </div>
     </div>
 
     <!-- Floating Lap Center Controls -->
     <div class="hud-center-controls">
-      <button id="btn-auto-organize" class="btn btn-emerald">✨ Auto-Organize Dock</button>
-      <button id="btn-synthesize" class="btn btn-amber">🔮 Synthesize Workspace</button>
-      <button id="btn-voice" class="btn">🎤 Voice Note</button>
-      <button id="btn-palette" class="btn">✋ Palm Palette</button>
-      <button id="btn-export" class="btn btn-primary">💾 Export Session (.md)</button>
+      <button id="btn-add-card" class="btn" title="Create a new 3D Data Capsule">➕ Add Capsule</button>
+      <button id="btn-auto-organize" class="btn btn-emerald" title="Aether arranges cards into optimal slots">✨ Auto-Organize</button>
+      <button id="btn-synthesize" class="btn btn-amber" title="Aether synthesizes session into Executive Brief">🔮 Synthesize</button>
+      <button id="btn-voice" class="btn" title="Speak a task or note via Web Speech">🎤 Voice Note</button>
+      <button id="btn-palette" class="btn" title="Summon the wrist radial palette">✋ Palm Palette</button>
+      <button id="btn-export" class="btn btn-primary" title="Export clean Markdown for Obsidian/Notion">💾 Export (.md)</button>
     </div>
 
     <!-- Feedback Toast -->
     <div id="hud-toast" class="hud-toast">AetherDesk Ready</div>
+  </div>
+
+  <!-- Capsule Inspector & Editor Modal -->
+  <div id="inspector-modal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="inspector-modal-title">Tactile Data Capsule</h3>
+        <button id="btn-close-inspector" class="btn">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="inspector-form" onsubmit="return false;">
+          <input type="hidden" id="card-edit-id" value="">
+          
+          <div class="form-row">
+            <div class="form-group flex-2">
+              <label for="card-edit-title">Capsule Title</label>
+              <input type="text" id="card-edit-title" class="form-input" placeholder="e.g. Ergonomics Review" required>
+            </div>
+            <div class="form-group flex-1">
+              <label for="card-edit-type">Capsule Type</label>
+              <select id="card-edit-type" class="form-input">
+                <option value="task">☑️ Task</option>
+                <option value="note">📝 Note</option>
+                <option value="idea">💡 Idea</option>
+                <option value="brief">📋 Brief</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label for="card-edit-priority">Priority</label>
+              <select id="card-edit-priority" class="form-input">
+                <option value="HIGH">HIGH (Urgent)</option>
+                <option value="MEDIUM">MEDIUM (Standard)</option>
+                <option value="LOW">LOW (Backlog)</option>
+              </select>
+            </div>
+            <div class="form-group flex-1">
+              <label for="card-edit-slot">Dock Slot</label>
+              <select id="card-edit-slot" class="form-input">
+                <option value="0">Slot 0 • Triage</option>
+                <option value="1">Slot 1 • Focus 1</option>
+                <option value="2">Slot 2 • Focus 2</option>
+                <option value="3">Slot 3 • Synthesis</option>
+              </select>
+            </div>
+            <div class="form-group flex-2">
+              <label for="card-edit-tags">Tags (Comma-separated)</label>
+              <input type="text" id="card-edit-tags" class="form-input" placeholder="Hackathon, UX, Ergonomics">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="card-edit-content">Content & Spatial Context</label>
+            <textarea id="card-edit-content" class="form-input form-textarea" placeholder="Enter actionable details..." rows="4"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer space-between">
+        <button id="btn-delete-card" class="btn btn-danger">🗑️ Delete Capsule</button>
+        <div class="action-group">
+          <button id="btn-delegate-from-modal" class="btn btn-amber">🤖 Toss to Aether</button>
+          <button id="btn-save-inspector" class="btn btn-primary">💾 Save Changes</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Export Modal -->
@@ -102,6 +188,6 @@
       </div>
     </div>
   </div>
-
+
 </body>
 </html>

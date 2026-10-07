@@ -26,14 +26,13 @@
 4. [Meta's Four Heuristic Tests](#-metas-four-heuristic-tests)
 5. [Hands-First Gesture Design](#-hands-first-gesture-design)
 6. [Aether: The Embodied Agent](#-aether-the-embodied-agent)
-7. [First Five Minutes & Retention Loop](#-first-five-minutes--retention-loop)
-8. [Tech Stack](#-tech-stack)
-9. [Project Structure](#-project-structure)
-10. [Quick Start](#-quick-start)
-11. [Testing on Meta Quest](#-testing-on-meta-quest)
-12. [Deployment](#-deployment)
-13. [Devpost Submission Kit](#-devpost-submission-kit)
-14. [License](#-license)
+7. [Tech Stack](#-tech-stack)
+8. [Project Structure](#-project-structure)
+9. [Quick Start](#-quick-start)
+10. [Testing on Meta Quest](#-testing-on-meta-quest)
+11. [Deployment](#-deployment)
+12. [Devpost Submission Kit](#-devpost-submission-kit)
+13. [License](#-license)
 
 ---
 
