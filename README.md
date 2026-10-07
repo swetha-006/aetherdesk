@@ -265,15 +265,65 @@ Push the contents of `dist/` to your `gh-pages` branch.
 
 | Field | Value |
 |-------|-------|
-| **Title** | AetherDesk: Seated Hands-First Spatial Agentic Workspace |
-| **Track** | Productivity |
+| **Submission Name** | AetherDesk: Seated Hands-First Spatial Agentic Workspace |
+| **Track** | Productivity ($70,000 Top Prize) |
 | **Division** | New Experience |
-| **Tagline** | The seated, hands-first spatial workspace. Turn complex thoughts into tactile data capsules coordinated by an embodied autonomous AI agent. |
-| **Target awards** | Best Agentic Interaction · Best First Five Minutes · Best Reason to Come Back |
+| **Tagline (138 / 140 chars)** | `Seated, hands-first spatial workspace turning complex thoughts into tactile data capsules guided by an embodied autonomous AI agent.` |
+| **Target Special Awards** | Best Agentic Interaction ($25k) · Best Reason to Come Back ($25k) · Best First Five Minutes ($25k) · Best Accessibility Forward ($25k) |
 
-**Hand Interaction Statement**
+### ✋ Hand Interaction Statement
 
-> AetherDesk eliminates arm fatigue by constraining interaction to a 24-inch semi-sphere above the lap. Using WebXR Hand Tracking, users employ micro-pinches to grab data capsules and turn their non-dominant palm face-up to summon a wrist palette. Cards tossed toward the embodied agent trigger autonomous spatial synthesis.
+> AetherDesk eliminates arm fatigue by constraining interaction to a 24-inch semi-sphere above the lap. Using WebXR Hand Tracking with a 25-joint articulated visual skeleton, users employ micro-pinches to grab data capsules and turn their non-dominant palm face-up to summon a wrist palette. Cards tossed toward the embodied agent trigger autonomous spatial synthesis. Zero controllers required.
+
+### 📄 500-Word Project Description (Devpost Text Field)
+
+```markdown
+### 1. Inspiration
+Spatial computing promised infinite monitors, but reality gave us "Gorilla Arm" shoulder fatigue in minutes. Reaching for floating 2D browser windows 1.5 meters away violates human biomechanics. We asked: What if spatial productivity respected the body? What if your entire workspace lived in an ergonomic 24-inch tactile micro-sphere above your lap, completely controller-free, operating seamlessly in a coach airplane seat or a morning commute?
+
+### 2. How We Built It
+Built 100% from scratch for Meta VR Start 2026, AetherDesk combines:
+• WebXR Hand Tracking API: 25-joint articulated cybernetic hand skeleton, 2.4cm micro-pinch detection, and palm-up wrist palette summoning.
+• Ergonomic 24-inch Curved Lap Console: Three.js magnetic slots snapping 3D data capsules (Tasks, Notes, Ideas, Briefs) directly within the seated rest zone.
+• Procedural Web Audio Engine: Synthesizing tactile mechanical clicks, magnetic snaps, and harmonic chimes entirely client-side without external audio files.
+• Embodied Autonomous Co-Pilot ("Aether"): A 3D gyroscopic avatar that perceives proximity, tracks held capsules, and autonomously executes spatial tool calls (auto-organizing slots, decomposing complex goals into subtasks, and synthesizing cross-card executive rollups).
+• 100% Free & Offline-First: Zero paid third-party APIs. Operates completely standalone via local spatial NLP rules, Web Speech API, and persistent IndexedDB/LocalStorage vault.
+
+### 3. Meta Heuristic Compliance
+• Airplane Seat Test: Constrained within a 2-foot stationary radius; elbows rest comfortably on armrests.
+• One Bus Stop Test: Cold start in <2 seconds. Daily rituals (Morning Triage, Focus Sprint, Evening Review) deliver immediate clarity in under 5 minutes.
+• Take-It-Away Test: Completely entrant-built; no OpenAI or cloud dependencies.
+
+### 4. Future Plans
+Expanding multi-user collaborative lap docking over WebRTC, integrating local on-device small language models (SLMs) via WebGPU, and shipping directly as an optimized PWA on the Meta Quest Store.
+```
+
+### 📹 3-Minute Demonstration Video Storyboard & Script
+
+```text
+[0:00 - 0:25] THE HOOK & ERGONOMIC PROBLEM
+• Visual: User seated comfortably in chair, putting on Quest 3. Hands rest on lap/armrests.
+• VO: "Spatial productivity apps promised infinite screens, but reaching for floating windows causes shoulder fatigue in minutes. Meet AetherDesk—the seated, hands-first spatial workspace designed for Meta Quest 3 and Meta VR Glasses."
+
+[0:25 - 0:55] AIRPLANE SEAT ERGONOMICS & HAND TRACKING
+• Visual: 24-inch curved console glowing softly above lap. 25-joint articulated hand skeleton tracking finger movement.
+• VO: "Every interaction operates within a two-foot radius. Notice how elbows stay anchored. Using natural micro-pinches under 2.4 centimeters, we lift and inspect tangible 3D data capsules with instant tactile audio feedback."
+
+[0:55 - 1:35] PALM PALETTE & TACTILE DOCKING
+• Visual: Turn non-dominant left palm face-up. Holographic radial palette blooms over wrist. User micro-taps '+ Task' and dictates thought.
+• VO: "Turning your palm face-up summons the wrist palette. Voice thoughts instantly materialize into structured 3D cards, magnetically snapping into curved lap slots."
+
+[1:35 - 2:20] BEST AGENTIC INTERACTION: EMBODIED CO-PILOT
+• Visual: Drag a goal capsule and toss it toward Aether's pedestal. The avatar's gyroscopic rings accelerate into Cyber Amber (THINKING), emit harmonic resonance, and shatter the goal into two sequential subtasks in Emerald (ACTUATING). User hits 'Synthesize' to generate an Executive Rollup.
+• VO: "Aether isn't a 2D chatbot sidebar. It is an embodied co-pilot that perceives spatial proximity, autonomously decomposes complex projects, and synthesizes executive rollups directly in 3D space."
+
+[2:20 - 2:50] DAILY RETENTION & ACCESSIBILITY
+• Visual: Switch between Morning Triage, Deep Focus Sprint (ambient dimming), and Evening Wind-Down. Show 1-click Markdown export to Obsidian/Notion.
+• VO: "With daily habit presets, session streak tracking, and height calibration for wheelchair accessibility, AetherDesk gives you a compelling reason to come back every day."
+
+[2:50 - 3:00] CONCLUSION
+• VO: "Hands-first, zero controllers, 100% free and offline. The future of VR productivity is in your hands."
+```
 
 ---
 

@@ -577,6 +577,125 @@ select.form-input {
   gap: 10px;
 }
 
+/* Pulse Button for Demo */
+.pulse-btn {
+  box-shadow: 0 0 14px rgba(16, 185, 129, 0.4);
+  animation: pulseGlow 2.5s infinite ease-in-out;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 10px rgba(16, 185, 129, 0.3); border-color: var(--accent-emerald); }
+  50% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.7); border-color: #34D399; }
+}
+
+.ritual-group {
+  display: flex;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.btn-sm {
+  padding: 6px 10px;
+  font-size: 11px;
+  border-radius: 0;
+  border: none;
+  border-right: 1px solid var(--panel-border);
+}
+
+.btn-sm:last-child {
+  border-right: none;
+}
+
+.badge-row {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+/* Thought Chips */
+.thought-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.chip-btn {
+  background: #1E293B;
+  color: var(--text-primary);
+  border: 1px solid #334155;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.chip-btn:hover {
+  background: #0E7490;
+  border-color: var(--accent-cyan);
+  color: #FFFFFF;
+  transform: translateY(-1px);
+}
+
+/* Form Slider */
+.form-slider {
+  width: 100%;
+  accent-color: var(--accent-cyan);
+  cursor: pointer;
+  margin-top: 6px;
+}
+
+/* Devpost Modal Large */
+.modal-lg {
+  max-width: 720px;
+}
+
+.devpost-body {
+  max-height: 60vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-right: 6px;
+}
+
+.submission-field {
+  background: #0F172A;
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+
+.field-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: var(--text-primary);
+}
+
+.field-val {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  background: #161B22;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid #21262D;
+}
+
+.char-count {
+  display: block;
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--accent-emerald);
+  font-weight: 600;
+}
+
 /* Utilities */
 .hidden {
   display: none !important;

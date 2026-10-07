@@ -1,6 +1,48 @@
 import * as THREE from 'three';
 import { sound } from './audio.js';
 
+// WebXR Hand Tracking 25 Standard Joints
+const HAND_JOINTS = [
+  'wrist',
+  'thumb-metacarpal', 'thumb-phalanx-proximal', 'thumb-phalanx-distal', 'thumb-tip',
+  'index-finger-metacarpal', 'index-finger-phalanx-proximal', 'index-finger-phalanx-intermediate', 'index-finger-phalanx-distal', 'index-finger-tip',
+  'middle-finger-metacarpal', 'middle-finger-phalanx-proximal', 'middle-finger-phalanx-intermediate', 'middle-finger-phalanx-distal', 'middle-finger-tip',
+  'ring-finger-metacarpal', 'ring-finger-phalanx-proximal', 'ring-finger-phalanx-intermediate', 'ring-finger-phalanx-distal', 'ring-finger-tip',
+  'pinky-finger-metacarpal', 'pinky-finger-phalanx-proximal', 'pinky-finger-phalanx-intermediate', 'pinky-finger-phalanx-distal', 'pinky-finger-tip'
+];
+
+const BONE_CONNECTIONS = [
+  // Thumb
+  ['wrist', 'thumb-metacarpal'],
+  ['thumb-metacarpal', 'thumb-phalanx-proximal'],
+  ['thumb-phalanx-proximal', 'thumb-phalanx-distal'],
+  ['thumb-phalanx-distal', 'thumb-tip'],
+  // Index
+  ['wrist', 'index-finger-metacarpal'],
+  ['index-finger-metacarpal', 'index-finger-phalanx-proximal'],
+  ['index-finger-phalanx-proximal', 'index-finger-phalanx-intermediate'],
+  ['index-finger-phalanx-intermediate', 'index-finger-phalanx-distal'],
+  ['index-finger-phalanx-distal', 'index-finger-tip'],
+  // Middle
+  ['wrist', 'middle-finger-metacarpal'],
+  ['middle-finger-metacarpal', 'middle-finger-phalanx-proximal'],
+  ['middle-finger-phalanx-proximal', 'middle-finger-phalanx-intermediate'],
+  ['middle-finger-phalanx-intermediate', 'middle-finger-phalanx-distal'],
+  ['middle-finger-phalanx-distal', 'middle-finger-tip'],
+  // Ring
+  ['wrist', 'ring-finger-metacarpal'],
+  ['ring-finger-metacarpal', 'ring-finger-phalanx-proximal'],
+  ['ring-finger-phalanx-proximal', 'ring-finger-phalanx-intermediate'],
+  ['ring-finger-phalanx-intermediate', 'ring-finger-phalanx-distal'],
+  ['ring-finger-phalanx-distal', 'ring-finger-tip'],
+  // Pinky
+  ['wrist', 'pinky-finger-metacarpal'],
+  ['pinky-finger-metacarpal', 'pinky-finger-phalanx-proximal'],
+  ['pinky-finger-phalanx-proximal', 'pinky-finger-phalanx-intermediate'],
+  ['pinky-finger-phalanx-intermediate', 'pinky-finger-phalanx-distal'],
+  ['pinky-finger-phalanx-distal', 'pinky-finger-tip']
+];
+
 export class HandInteractionEngine {
   constructor(scene, camera, renderer, cardManager) {
     this.scene = scene;
@@ -13,8 +55,8 @@ export class HandInteractionEngine {
 
     // Hand tracking state for left/right hands (WebXR)
     this.xrHands = {
-      left: { inputSource: null, joints: {}, isPinching: false, palmUp: false, pinchMesh: null },
-      right: { inputSource: null, joints: {}, isPinching: false, palmUp: false, pinchMesh: null }
+      left: { inputSource: null, joints: {}, isPinching: false, palmUp: false, pinchMesh: null, group: null, jointMeshes: {}, boneLines: null, bonePositions: null },
+      right: { inputSource: null, joints: {}, isPinching: false, palmUp: false, pinchMesh: null, group: null, jointMeshes: {}, boneLines: null, bonePositions: null }
     };
 
     // Grabbed object state
@@ -47,15 +89,63 @@ export class HandInteractionEngine {
   }
 
   setupHandVisuals() {
-    // Visual indicators for pinch points
     ['left', 'right'].forEach((side) => {
-      const geom = new THREE.SphereGeometry(0.012, 16, 16);
-      const mat = new THREE.MeshBasicMaterial({
-        color: side === 'left' ? 0x06B6D4 : 0xF59E0B,
-        transparent: true,
-        opacity: 0.7
+      const isLeft = side === 'left';
+      const mainColor = isLeft ? 0x06B6D4 : 0xF59E0B;
+      const boneColor = isLeft ? 0x22D3EE : 0xFBBF24;
+
+      const handGroup = new THREE.Group();
+      handGroup.visible = false;
+      this.scene.add(handGroup);
+      this.xrHands[side].group = handGroup;
+
+      // 1. Joint Meshes (25 joints)
+      const jointMeshes = {};
+      HAND_JOINTS.forEach((jointName) => {
+        const isTip = jointName.endsWith('-tip');
+        const isWrist = jointName === 'wrist';
+        const radius = isWrist ? 0.007 : isTip ? 0.0045 : 0.0035;
+
+        const geom = new THREE.SphereGeometry(radius, 12, 12);
+        const mat = new THREE.MeshStandardMaterial({
+          color: mainColor,
+          emissive: mainColor,
+          emissiveIntensity: 0.6,
+          roughness: 0.3,
+          metalness: 0.7
+        });
+        const jointMesh = new THREE.Mesh(geom, mat);
+        jointMesh.visible = false;
+        handGroup.add(jointMesh);
+        jointMeshes[jointName] = jointMesh;
       });
-      const pinchSphere = new THREE.Mesh(geom, mat);
+      this.xrHands[side].jointMeshes = jointMeshes;
+
+      // 2. Bone Lines (interconnecting skeleton)
+      const numBones = BONE_CONNECTIONS.length;
+      const bonePositions = new Float32Array(numBones * 2 * 3);
+      const boneGeom = new THREE.BufferGeometry();
+      boneGeom.setAttribute('position', new THREE.BufferAttribute(bonePositions, 3));
+
+      const boneMat = new THREE.LineBasicMaterial({
+        color: boneColor,
+        transparent: true,
+        opacity: 0.7,
+        linewidth: 2
+      });
+      const boneLines = new THREE.LineSegments(boneGeom, boneMat);
+      handGroup.add(boneLines);
+      this.xrHands[side].boneLines = boneLines;
+      this.xrHands[side].bonePositions = bonePositions;
+
+      // 3. Pinch indicator sphere
+      const pinchGeom = new THREE.SphereGeometry(0.012, 16, 16);
+      const pinchMat = new THREE.MeshBasicMaterial({
+        color: mainColor,
+        transparent: true,
+        opacity: 0.75
+      });
+      const pinchSphere = new THREE.Mesh(pinchGeom, pinchMat);
       pinchSphere.visible = false;
       this.scene.add(pinchSphere);
       this.xrHands[side].pinchMesh = pinchSphere;
@@ -315,88 +405,118 @@ export class HandInteractionEngine {
 
       const handedness = inputSource.handedness; // 'left' or 'right'
       const handState = this.xrHands[handedness];
+      if (!handState) continue;
       handState.inputSource = inputSource;
 
+      // Make hand visual group visible
+      if (handState.group) handState.group.visible = true;
+
+      // Map to store current frame 3D positions of all joints
+      const jointPositions = new Map();
+
+      // Query and position all 25 joints
+      for (const jointName of HAND_JOINTS) {
+        const joint = inputSource.hand.get(jointName);
+        const jointMesh = handState.jointMeshes[jointName];
+        if (joint && referenceSpace) {
+          const pose = frame.getJointPose(joint, referenceSpace);
+          if (pose) {
+            const pos = new THREE.Vector3(
+              pose.transform.position.x,
+              pose.transform.position.y,
+              pose.transform.position.z
+            );
+            jointPositions.set(jointName, pos);
+            if (jointMesh) {
+              jointMesh.position.copy(pos);
+              jointMesh.visible = true;
+            }
+          } else if (jointMesh) {
+            jointMesh.visible = false;
+          }
+        }
+      }
+
+      // Update bone lines connecting the joints
+      if (handState.boneLines && handState.bonePositions) {
+        let ptr = 0;
+        for (const [jointA, jointB] of BONE_CONNECTIONS) {
+          const posA = jointPositions.get(jointA);
+          const posB = jointPositions.get(jointB);
+          if (posA && posB) {
+            handState.bonePositions[ptr++] = posA.x;
+            handState.bonePositions[ptr++] = posA.y;
+            handState.bonePositions[ptr++] = posA.z;
+            handState.bonePositions[ptr++] = posB.x;
+            handState.bonePositions[ptr++] = posB.y;
+            handState.bonePositions[ptr++] = posB.z;
+          } else {
+            ptr += 6;
+          }
+        }
+        handState.boneLines.geometry.attributes.position.needsUpdate = true;
+      }
+
       // Detect index-tip and thumb-tip for micro-pinch gesture
-      const indexTip = inputSource.hand.get('index-finger-tip');
-      const thumbTip = inputSource.hand.get('thumb-tip');
-      const wrist = inputSource.hand.get('wrist');
+      const indexPos = jointPositions.get('index-finger-tip');
+      const thumbPos = jointPositions.get('thumb-tip');
+      const wristPos = jointPositions.get('wrist');
 
-      if (indexTip && thumbTip && referenceSpace) {
-        const indexPose = frame.getJointPose(indexTip, referenceSpace);
-        const thumbPose = frame.getJointPose(thumbTip, referenceSpace);
+      if (indexPos && thumbPos) {
+        // Update pinch mesh visual at midpoint
+        const pinchMidpoint = new THREE.Vector3().addVectors(indexPos, thumbPos).multiplyScalar(0.5);
+        handState.pinchMesh.position.copy(pinchMidpoint);
+        handState.pinchMesh.visible = true;
 
-        if (indexPose && thumbPose) {
-          const indexPos = new THREE.Vector3(
-            indexPose.transform.position.x,
-            indexPose.transform.position.y,
-            indexPose.transform.position.z
-          );
-          const thumbPos = new THREE.Vector3(
-            thumbPose.transform.position.x,
-            thumbPose.transform.position.y,
-            thumbPose.transform.position.z
-          );
+        const pinchDistance = indexPos.distanceTo(thumbPos);
+        const isPinchingNow = pinchDistance < 0.024; // 2.4 cm pinch threshold
 
-          // Update pinch mesh visual at midpoint
-          const pinchMidpoint = new THREE.Vector3().addVectors(indexPos, thumbPos).multiplyScalar(0.5);
-          handState.pinchMesh.position.copy(pinchMidpoint);
-          handState.pinchMesh.visible = true;
+        if (isPinchingNow && !handState.isPinching) {
+          // Pinch Start
+          handState.isPinching = true;
+          sound.playClick();
+          this.handleXRPinchStart(pinchMidpoint, handedness);
+        } else if (!isPinchingNow && handState.isPinching) {
+          // Pinch End
+          handState.isPinching = false;
+          this.handleXRPinchEnd(handedness);
+        } else if (handState.isPinching && this.grabbedMesh && this.grabHand === handedness) {
+          // Dragging along pinch
+          this.grabbedMesh.position.copy(pinchMidpoint);
 
-          const pinchDistance = indexPos.distanceTo(thumbPos);
-          const isPinchingNow = pinchDistance < 0.024; // 2.4 cm pinch threshold
-
-          if (isPinchingNow && !handState.isPinching) {
-            // Pinch Start
-            handState.isPinching = true;
-            sound.playClick();
-            this.handleXRPinchStart(pinchMidpoint, handedness);
-          } else if (!isPinchingNow && handState.isPinching) {
-            // Pinch End
-            handState.isPinching = false;
-            this.handleXRPinchEnd(handedness);
-          } else if (handState.isPinching && this.grabbedMesh && this.grabHand === handedness) {
-            // Dragging along pinch
-            this.grabbedMesh.position.copy(pinchMidpoint);
-
-            // Proximity feedback
-            const agentDist = this.grabbedMesh.position.distanceTo(new THREE.Vector3(0.38, -0.05, -0.40));
-            if (this.onAgentProximity) {
-              this.onAgentProximity(agentDist < 0.24 ? this.grabbedMesh : null);
-            }
-            const { slot, distance } = this.cardManager.findNearestSlot(this.grabbedMesh.position);
-            this.cardManager.clearAllSlotHighlights();
-            if (distance < 0.14) {
-              this.cardManager.setSlotHighlight(slot.id, true);
-            }
+          // Proximity feedback
+          const agentDist = this.grabbedMesh.position.distanceTo(new THREE.Vector3(0.38, -0.05, -0.40));
+          if (this.onAgentProximity) {
+            this.onAgentProximity(agentDist < 0.24 ? this.grabbedMesh : null);
+          }
+          const { slot, distance } = this.cardManager.findNearestSlot(this.grabbedMesh.position);
+          this.cardManager.clearAllSlotHighlights();
+          if (distance < 0.14) {
+            this.cardManager.setSlotHighlight(slot.id, true);
           }
         }
       }
 
       // Detect Left Palm-Up to summon Palm Palette
-      if (handedness === 'left' && wrist) {
-        const wristPose = frame.getJointPose(wrist, referenceSpace);
-        if (wristPose) {
-          const wristPos = new THREE.Vector3(
-            wristPose.transform.position.x,
-            wristPose.transform.position.y,
-            wristPose.transform.position.z
-          );
+      if (handedness === 'left' && wristPos) {
+        const wristJoint = inputSource.hand.get('wrist');
+        if (wristJoint && referenceSpace) {
+          const wristPose = frame.getJointPose(wristJoint, referenceSpace);
+          if (wristPose) {
+            const rot = wristPose.transform.orientation;
+            const quat = new THREE.Quaternion(rot.x, rot.y, rot.z, rot.w);
+            const upVector = new THREE.Vector3(0, 1, 0).applyQuaternion(quat);
 
-          // Orientation check: palm facing camera/face
-          const rot = wristPose.transform.orientation;
-          const quat = new THREE.Quaternion(rot.x, rot.y, rot.z, rot.w);
-          const upVector = new THREE.Vector3(0, 1, 0).applyQuaternion(quat);
-
-          if (upVector.y > 0.55) {
-            if (!this.paletteVisible) {
-              this.paletteGroup.position.copy(wristPos).add(new THREE.Vector3(0, 0.06, 0.02));
-              this.paletteGroup.quaternion.copy(this.camera.quaternion);
-              this.togglePalmPalette(true);
-            }
-          } else {
-            if (this.paletteVisible) {
-              this.togglePalmPalette(false);
+            if (upVector.y > 0.55) {
+              if (!this.paletteVisible) {
+                this.paletteGroup.position.copy(wristPos).add(new THREE.Vector3(0, 0.06, 0.02));
+                this.paletteGroup.quaternion.copy(this.camera.quaternion);
+                this.togglePalmPalette(true);
+              }
+            } else {
+              if (this.paletteVisible) {
+                this.togglePalmPalette(false);
+              }
             }
           }
         }

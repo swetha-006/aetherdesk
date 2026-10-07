@@ -6,15 +6,16 @@ export class SpatialScene {
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0x090D12); // Deep obsidian space void
 
-    // Camera setup for seated ergonomic viewing (lap-focused)
+    // Camera setup for seated ergonomic viewing (lap-focused 25-degree downward tilt)
     this.camera = new THREE.PerspectiveCamera(
       65,
       window.innerWidth / window.innerHeight,
       0.05,
       20
     );
-    // User seated eye-level
-    this.camera.position.set(0, 0, 0.05);
+    // User seated eye-level, tilted toward the 24" lap dock
+    this.camera.position.set(0, 0.05, 0.05);
+    this.camera.lookAt(0, -0.12, -0.45);
 
     // Renderer with WebXR capabilities
     this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
@@ -36,8 +37,8 @@ export class SpatialScene {
 
   setupLighting() {
     // Ambient light with soft obsidian tone
-    const ambient = new THREE.AmbientLight(0x384152, 1.4);
-    this.scene.add(ambient);
+    this.ambientLight = new THREE.AmbientLight(0x384152, 1.4);
+    this.scene.add(this.ambientLight);
 
     // Directional Key Light
     const keyLight = new THREE.DirectionalLight(0xF8FAFC, 1.9);
@@ -180,7 +181,35 @@ export class SpatialScene {
     this.scene.add(dockGroup);
 
     // World coordinate for agent avatar
+    this.dockBasePos = new THREE.Vector3(0, -0.16, -0.45);
     this.agentAnchor = new THREE.Vector3(0.38, -0.05, -0.40);
+  }
+
+  // Accessibility calibration for different seating / chairs / wheelchairs
+  setDockOffset(elevation = 0, distance = 0) {
+    this.dockGroup.position.set(
+      this.dockBasePos.x,
+      this.dockBasePos.y + elevation,
+      this.dockBasePos.z + distance
+    );
+    this.agentAnchor.set(
+      0.38,
+      -0.05 + elevation,
+      -0.40 + distance
+    );
+  }
+
+  // Deep Focus / Commute Sprint ambient dimmer
+  setFocusDim(isDimmed) {
+    if (this.ambientLight) {
+      this.ambientLight.intensity = isDimmed ? 0.35 : 1.4;
+    }
+    if (this.particles) {
+      this.particles.material.opacity = isDimmed ? 0.12 : 0.4;
+    }
+    if (this.dockGlow) {
+      this.dockGlow.intensity = isDimmed ? 1.5 : 0.9;
+    }
   }
 
   onResize() {

@@ -26,7 +26,19 @@
         </div>
       </div>
       <div class="header-actions">
-        <button id="btn-sound-toggle" class="btn" title="Toggle Procedural Audio Engine">🔊 Audio Active</button>
+        <!-- 60-Second Guided Tour for Judges -->
+        <button id="btn-judge-demo" class="btn btn-emerald pulse-btn" title="Run 60-second automated walkthrough of all core heuristics">⚡ Run 60s Demo</button>
+        
+        <!-- Daily Productivity Ritual Presets -->
+        <div class="ritual-group">
+          <button id="btn-ritual-morning" class="btn btn-sm" title="Morning Triage: 3 prioritized daily cards">🌅 Morning</button>
+          <button id="btn-ritual-sprint" class="btn btn-sm" title="Deep Focus Sprint: Distraction-free single card mode">⚡ Sprint</button>
+          <button id="btn-ritual-evening" class="btn btn-sm" title="Evening Wind-Down: Executive rollup synthesis">🌙 Review</button>
+        </div>
+
+        <button id="btn-ergonomics" class="btn" title="Ergonomic calibration for desk, chair, or wheelchair">♿ Ergonomics</button>
+        <button id="btn-devpost-kit" class="btn btn-amber" title="Devpost Submission Kit: Tagline, 500-word text, video storyboard">📋 Devpost Kit</button>
+        <button id="btn-sound-toggle" class="btn" title="Toggle Procedural Audio Engine">🔊 Audio</button>
         <button id="btn-reset" class="btn" title="Restore default competition workspace">↺ Reset</button>
         <button id="enter-vr-btn" class="btn btn-primary" title="Launch WebXR Session on Meta Quest or Simulator">🥽 Enter WebXR (Meta Quest)</button>
       </div>
@@ -36,7 +48,10 @@
     <div class="hud-onboarding" id="onboarding-card">
       <div class="onboarding-title">
         <span>⚡ First 5-Minute Routine</span>
-        <span id="onboarding-score" class="badge-amber">0/4 DONE</span>
+        <div class="badge-row">
+          <span id="streak-badge" class="badge-amber">🔥 1-Day Streak</span>
+          <span id="onboarding-score" class="badge-amber">0/4 DONE</span>
+        </div>
       </div>
       <ul class="step-list">
         <li class="step-item" id="step-1">
@@ -99,6 +114,123 @@
 
     <!-- Feedback Toast -->
     <div id="hud-toast" class="hud-toast">AetherDesk Ready</div>
+  </div>
+
+  <!-- VR-Safe In-App Thought Modal (Non-Blocking) -->
+  <div id="thought-modal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>🧠 Voice & Thought Co-Pilot</h3>
+        <button id="btn-close-thought" class="btn">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 10px;">
+          Speak via microphone or choose a quick hackathon thought chip below:
+        </p>
+        <div class="thought-chips">
+          <button class="chip-btn" data-text="Record 3-minute Devpost demonstration video on Meta Quest 3">📹 Record 3-min Video</button>
+          <button class="chip-btn" data-text="Verify airplane seat test within seated 24-inch lap envelope">✈️ Airplane Seat Test</button>
+          <button class="chip-btn" data-text="Execute morning commute task triage into Slot 1">🌅 Morning Triage</button>
+          <button class="chip-btn" data-text="Synthesize executive session brief for Notion and Obsidian">🔮 Executive Synthesis</button>
+        </div>
+        <div class="form-group" style="margin-top: 14px;">
+          <label for="thought-text-input">Your Thought / Task / Idea:</label>
+          <textarea id="thought-text-input" class="form-input form-textarea" rows="3" placeholder="Speak or type your thought here..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer space-between">
+        <button id="btn-mic-dictate" class="btn btn-emerald">🎤 Start Speech Recognition</button>
+        <div class="action-group">
+          <button id="btn-cancel-thought" class="btn">Cancel</button>
+          <button id="btn-submit-thought" class="btn btn-primary">⚡ Materialize Capsule</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ergonomic Calibration Modal ($25k Accessibility Forward Award) -->
+  <div id="calibration-modal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>♿ Seated Lap Ergonomics Calibration</h3>
+        <button id="btn-close-calibration" class="btn">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 14px;">
+          Adjust the 24-inch curved console to your exact seated height, posture, or wheelchair setup.
+        </p>
+        <div class="form-group">
+          <label for="slider-dock-elevation">Console Elevation (Height): <span id="label-elevation">0 cm</span></label>
+          <input type="range" id="slider-dock-elevation" min="-12" max="12" value="0" class="form-slider">
+        </div>
+        <div class="form-group" style="margin-top: 12px;">
+          <label for="slider-dock-distance">Console Reach (Distance): <span id="label-distance">0 cm</span></label>
+          <input type="range" id="slider-dock-distance" min="-15" max="15" value="0" class="form-slider">
+        </div>
+        <div class="form-group" style="margin-top: 14px; display: flex; align-items: center; justify-content: space-between;">
+          <label for="toggle-focus-dim" style="margin: 0; font-size: 13px; color: var(--text-primary); cursor: pointer;">Deep Focus Environment Dimmer:</label>
+          <input type="checkbox" id="toggle-focus-dim" style="cursor: pointer; width: 18px; height: 18px;">
+        </div>
+      </div>
+      <div class="modal-footer space-between">
+        <button id="btn-reset-calibration" class="btn">↺ Reset to Default</button>
+        <button id="btn-save-calibration" class="btn btn-primary">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Devpost Submission Kit Modal -->
+  <div id="devpost-kit-modal" class="modal hidden">
+    <div class="modal-content modal-lg">
+      <div class="modal-header">
+        <h3>📋 Meta VR Start 2026 Devpost Submission Kit</h3>
+        <button id="btn-close-devpost-kit" class="btn">✕</button>
+      </div>
+      <div class="modal-body devpost-body">
+        <div class="submission-field">
+          <div class="field-header">
+            <strong>1. Submission Tagline (Strict 140 Character Maximum)</strong>
+            <button class="btn btn-sm copy-btn" data-target="tagline-val">📋 Copy</button>
+          </div>
+          <div class="field-val" id="tagline-val">Seated, hands-first spatial workspace turning complex thoughts into tactile data capsules guided by an embodied autonomous AI agent.</div>
+          <small class="char-count">138 / 140 characters • PASS (Compliant with Devpost limits)</small>
+        </div>
+
+        <div class="submission-field">
+          <div class="field-header">
+            <strong>2. Track & Target Special Awards</strong>
+          </div>
+          <div class="field-val"><strong>Track:</strong> Productivity ($70,000 Top Prize) &nbsp;|&nbsp; <strong>Division:</strong> New Experience &nbsp;|&nbsp; <strong>Special Awards:</strong> Best Agentic Interaction, Best Reason to Come Back, Best First Five Minutes</div>
+        </div>
+
+        <div class="submission-field">
+          <div class="field-header">
+            <strong>3. Complete Project Description (500 Words)</strong>
+            <button class="btn btn-sm copy-btn" data-target="description-val">📋 Copy</button>
+          </div>
+          <textarea class="form-input form-textarea" id="description-val" rows="8" readonly></textarea>
+        </div>
+
+        <div class="submission-field">
+          <div class="field-header">
+            <strong>4. Hand Interactions & Future of VR Statement</strong>
+            <button class="btn btn-sm copy-btn" data-target="hand-statement-val">📋 Copy</button>
+          </div>
+          <div class="field-val" id="hand-statement-val">AetherDesk eliminates arm fatigue by constraining interaction to a 24-inch semi-sphere above the lap. Using WebXR Hand Tracking with a 25-joint articulated visual skeleton, users employ micro-pinches to grab data capsules and turn their non-dominant palm face-up to summon a wrist palette. Cards tossed toward the embodied agent trigger autonomous spatial synthesis. Zero controllers required.</div>
+        </div>
+
+        <div class="submission-field">
+          <div class="field-header">
+            <strong>5. 3-Minute Demonstration Video Script & Storyboard</strong>
+            <button class="btn btn-sm copy-btn" data-target="storyboard-val">📋 Copy</button>
+          </div>
+          <textarea class="form-input form-textarea" id="storyboard-val" rows="7" readonly></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="btn-close-devpost-kit-bottom" class="btn btn-primary">Done</button>
+      </div>
+    </div>
   </div>
 
   <!-- Capsule Inspector & Editor Modal -->

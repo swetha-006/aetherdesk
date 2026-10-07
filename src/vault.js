@@ -47,6 +47,7 @@ const DEFAULT_CARDS = [
 export class VaultManager {
   constructor() {
     this.data = this.load();
+    this.checkAndUpdateStreak();
   }
 
   load() {
@@ -55,7 +56,12 @@ export class VaultManager {
       if (raw) {
         const parsed = JSON.parse(raw);
         if (parsed.cards && parsed.cards.length > 0) {
-          return parsed;
+          return {
+            ...parsed,
+            sessionStreak: parsed.sessionStreak || 1,
+            totalSessions: parsed.totalSessions || 1,
+            lastSessionDate: parsed.lastSessionDate || new Date().toISOString().split('T')[0]
+          };
         }
       }
     } catch (e) {
@@ -64,9 +70,114 @@ export class VaultManager {
     return {
       version: 1,
       lastModified: new Date().toISOString(),
+      sessionStreak: 1,
+      totalSessions: 1,
+      lastSessionDate: new Date().toISOString().split('T')[0],
       cards: [...DEFAULT_CARDS],
       agentLog: ['Workspace initialized in seated 24-inch lap configuration.']
     };
+  }
+
+  checkAndUpdateStreak() {
+    const today = new Date().toISOString().split('T')[0];
+    if (this.data.lastSessionDate !== today) {
+      const lastDate = new Date(this.data.lastSessionDate);
+      const currentDate = new Date(today);
+      const diffDays = Math.floor((currentDate - lastDate) / (1000 * 60 * 60 * 24));
+
+      if (diffDays === 1) {
+        this.data.sessionStreak = (this.data.sessionStreak || 0) + 1;
+      } else if (diffDays > 1) {
+        this.data.sessionStreak = 1;
+      }
+      this.data.totalSessions = (this.data.totalSessions || 0) + 1;
+      this.data.lastSessionDate = today;
+      this.save(this.data.cards, this.data.agentLog);
+    }
+  }
+
+  getRitualPreset(type) {
+    if (type === 'morning') {
+      return [
+        {
+          id: 'ritual-m1',
+          title: '🌅 Morning Triage: Top 3 Priorities',
+          type: 'task',
+          priority: 'HIGH',
+          content: 'Clear mental clutter. Allocate top tasks to lap dock slots for 10-minute commute planning.',
+          tags: ['MorningTriage', 'Focus', 'Habit'],
+          status: 'active',
+          slotIndex: 0
+        },
+        {
+          id: 'ritual-m2',
+          title: 'Key Stakeholder Review',
+          type: 'note',
+          priority: 'MEDIUM',
+          content: 'Ensure all hand interactions remain under 2.4cm pinch distance for effortless operation.',
+          tags: ['UX', 'Review'],
+          status: 'active',
+          slotIndex: 1
+        },
+        {
+          id: 'ritual-m3',
+          title: 'Daily Breakthrough Opportunity',
+          type: 'idea',
+          priority: 'MEDIUM',
+          content: 'Explore combining hands-free voice notes with Aether spatial card clustering.',
+          tags: ['Innovation'],
+          status: 'active',
+          slotIndex: 2
+        }
+      ];
+    } else if (type === 'sprint') {
+      return [
+        {
+          id: 'ritual-s1',
+          title: '⚡ Deep Focus Sprint (15-Min)',
+          type: 'task',
+          priority: 'CRITICAL',
+          content: 'Single-tasking envelope. All other cards dimmed. Seated elbows resting on armrest.',
+          tags: ['DeepSprint', 'Focus', 'Ergonomics'],
+          status: 'active',
+          slotIndex: 1
+        },
+        {
+          id: 'ritual-s2',
+          title: 'Immediate Action Checkpoint',
+          type: 'note',
+          priority: 'HIGH',
+          content: 'Test spatial tool calling with Aether before time expires.',
+          tags: ['Execution'],
+          status: 'active',
+          slotIndex: 2
+        }
+      ];
+    } else if (type === 'evening') {
+      return [
+        {
+          id: 'ritual-e1',
+          title: '🌙 Evening Wind-Down & Review',
+          type: 'task',
+          priority: 'MEDIUM',
+          content: 'Review active capsules. Clear completed items and trigger Executive Synthesis.',
+          tags: ['EveningReview', 'WindDown'],
+          status: 'active',
+          slotIndex: 0
+        },
+        {
+          id: 'ritual-e2',
+          title: 'Executive Session Rollup',
+          type: 'brief',
+          priority: 'HIGH',
+          content: 'Daily retention loop complete. Syncing markdown vault to Obsidian/Notion.',
+          tags: ['Synthesis', 'VaultSync'],
+          status: 'docked',
+          slotIndex: 3
+        }
+      ];
+    }
+    return [...DEFAULT_CARDS];
   }
 
   save(cards, agentLog = []) {
@@ -74,6 +185,9 @@ export class VaultManager {
       this.data = {
         version: 1,
         lastModified: new Date().toISOString(),
+        sessionStreak: this.data?.sessionStreak || 1,
+        totalSessions: this.data?.totalSessions || 1,
+        lastSessionDate: this.data?.lastSessionDate || new Date().toISOString().split('T')[0],
         cards: cards,
         agentLog: agentLog.length > 0 ? agentLog.slice(-15) : (this.data?.agentLog || [])
       };
@@ -88,6 +202,9 @@ export class VaultManager {
     this.data = {
       version: 1,
       lastModified: new Date().toISOString(),
+      sessionStreak: 1,
+      totalSessions: 1,
+      lastSessionDate: new Date().toISOString().split('T')[0],
       cards: [...DEFAULT_CARDS],
       agentLog: ['Workspace reset to pristine competition state.']
     };

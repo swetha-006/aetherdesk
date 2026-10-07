@@ -20,6 +20,8 @@ export class EmbodiedAgent {
     this.log = ['Aether co-pilot initialized in seated 24" workspace.'];
     this.targetLookAt = new THREE.Vector3();
     this.proximityTarget = null;
+    this.onRequestThoughtInput = null;
+    this.lastProactiveTime = performance.now();
 
     this.setupAvatarVisuals();
     this.setupSpeechRecognition();
@@ -242,9 +244,8 @@ export class EmbodiedAgent {
   }
 
   promptManualTextInput() {
-    const text = window.prompt('Voice recognition inactive. Type your thought or task:');
-    if (text && text.trim()) {
-      this.handleDictatedThought(text.trim());
+    if (this.onRequestThoughtInput) {
+      this.onRequestThoughtInput();
     }
   }
 
