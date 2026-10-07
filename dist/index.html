@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AetherDesk: Seated Hands-First Spatial Workspace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script type="module" crossorigin src="/assets/index-D0imB8tZ.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-DcADrHaT.css">
+</head>
+<body>
+  <div id="canvas-container"></div>
+
+  <!-- HUD Overlay -->
+  <div class="hud-overlay">
+    <!-- Top Header -->
+    <header class="hud-header">
+      <div class="brand-block">
+        <div class="logo-badge">META VR START 2026</div>
+        <div>
+          <h1 class="brand-title">AetherDesk <span style="font-size: 14px; color: var(--accent-cyan);">Spatial Studio</span></h1>
+          <p class="brand-meta">Seated 24" Lap Envelope • Hands-First Zero Controllers • Embodied Agent</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button id="btn-sound-toggle" class="btn">🔊 Audio Active</button>
+        <button id="btn-reset" class="btn">↺ Reset Workspace</button>
+        <button id="enter-vr-btn" class="btn btn-primary">🥽 Enter WebXR (Meta Quest)</button>
+      </div>
+    </header>
+
+    <!-- First 5 Minutes Onboarding Walkthrough ($25k Award Criterion) -->
+    <div class="hud-onboarding">
+      <div class="onboarding-title">
+        <span>⚡ First 5-Minute Routine</span>
+        <span style="font-size: 10px; color: var(--accent-amber);">SEATED ERGONOMICS</span>
+      </div>
+      <ul class="step-list">
+        <li class="step-item">
+          <span class="step-num">1</span>
+          <div><strong>Micro-Pinch Grab:</strong> Pinch index & thumb (or click-drag) to lift any tactile Data Capsule.</div>
+        </li>
+        <li class="step-item">
+          <span class="step-num">2</span>
+          <div><strong>Palm Palette:</strong> Turn left palm face-up (or press <kbd style="background:#21262d; padding:1px 4px; border-radius:3px;">P</kbd>) to summon radial quick actions.</div>
+        </li>
+        <li class="step-item">
+          <span class="step-num">3</span>
+          <div><strong>Autonomous Agent Toss:</strong> Drag any card toward Aether's pedestal to trigger goal decomposition or synthesis.</div>
+        </li>
+        <li class="step-item">
+          <span class="step-num">4</span>
+          <div><strong>Magnetic Dock Snap:</strong> Release cards near the curved lap tray slots to snap and save.</div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Agent Telemetry ($25k Agentic Interaction Award Criterion) -->
+    <div class="hud-agent-card">
+      <div class="agent-title">
+        <span>🤖 Co-Pilot: Aether</span>
+      </div>
+      <p class="agent-desc">Embodied autonomous spatial companion observing gaze, proximity, and card clusters.</p>
+      <div>
+        <span class="spec-badge">Spatial Observer</span>
+        <span class="spec-badge">Tool-Calling</span>
+        <span class="spec-badge">Offline Fallback</span>
+      </div>
+    </div>
+
+    <!-- Floating Lap Center Controls -->
+    <div class="hud-center-controls">
+      <button id="btn-auto-organize" class="btn btn-emerald">✨ Auto-Organize Dock</button>
+      <button id="btn-synthesize" class="btn btn-amber">🔮 Synthesize Workspace</button>
+      <button id="btn-voice" class="btn">🎤 Voice Note</button>
+      <button id="btn-palette" class="btn">✋ Palm Palette</button>
+      <button id="btn-export" class="btn btn-primary">💾 Export Session (.md)</button>
+    </div>
+
+    <!-- Feedback Toast -->
+    <div id="hud-toast" class="hud-toast">AetherDesk Ready</div>
+  </div>
+
+  <!-- Export Modal -->
+  <div id="export-modal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Export Spatial Session</h3>
+        <button id="btn-close-modal" class="btn">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">
+          Clean Markdown formatted for Obsidian, Notion, or local archives with autonomous agent synthesis:
+        </p>
+        <textarea id="export-textarea" readonly></textarea>
+      </div>
+      <div class="modal-footer">
+        <button id="btn-copy-md" class="btn">📋 Copy to Clipboard</button>
+        <button id="btn-download-md" class="btn btn-primary">⬇️ Download .md File</button>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
