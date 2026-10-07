@@ -32,11 +32,10 @@
    - [Embodied Agent State Machine & Autonomous Tool Loop](#3-embodied-agent-state-machine--tool-calling)
    - [Hands-First 25-Joint Skeletal Tracking Architecture](#4-hands-first-25-joint-skeletal-tracking-architecture)
    - [Daily Retention Habit & Streak Loop](#5-daily-retention-habit--streak-loop)
-5. [Core Features & Award Alignments](#-core-features--award-alignments)
+5. [Core Features](#-core-features)
    - [Best Agentic Interaction: Embodied Co-Pilot](#1-best-agentic-interaction-embodied-co-pilot-aether)
    - [Best Reason to Come Back: Daily Productivity Rituals](#2-best-reason-to-come-back-daily-productivity-rituals--streak)
-   - [Best First Five Minutes: 1-Click 60-Sec Guided Tour](#3-best-first-five-minutes-1-click-60-second-judge-guided-demo)
-   - [Best Accessibility Forward: Ergonomic Envelope Calibration](#4-best-accessibility-forward-ergonomic-envelope-calibration)
+   - [Best Accessibility Forward: Ergonomic Envelope Calibration](#3-best-accessibility-forward-ergonomic-envelope-calibration)
 6. [Meta's Four Heuristic Tests Compliance](#-metas-four-heuristic-tests-compliance)
 7. [Hands-First Gesture Reference](#-hands-first-gesture-reference)
 8. [Procedural Audio Engine](#-procedural-audio-engine)
@@ -236,10 +235,9 @@ flowchart LR
 
 ---
 
-## 🏆 Core Features & Award Alignments
+## 🏆 Core Features
 
 ### 1. Best Agentic Interaction: Embodied Co-Pilot ("Aether")
-*Targeting the **$25,000 Best Agentic Interaction Special Award***
 
 Aether is not a passive text box; it is an embodied spatial entity living on the right pedestal of your lap console:
 - **Spatial Awareness & Proximity Gaze:** When you grab a data capsule and move it toward the pedestal, Aether's 3D gyroscopic rings rotate toward the card, tracking your movements in real time.
@@ -252,7 +250,6 @@ Aether is not a passive text box; it is an embodied spatial entity living on the
 ---
 
 ### 2. Best Reason to Come Back: Daily Productivity Rituals & Streak
-*Targeting the **$25,000 Best Reason to Come Back Special Award***
 
 Directly addressing the competition's prompt for *"habits tied to a recurring context (morning routine, commute, wind-down)"*:
 - **🌅 Morning Triage:** Instant cold start for the morning commute. Clears mental friction, ingests the day's agenda, and sorts priorities into Slots 0 and 1 in under 90 seconds.
@@ -262,22 +259,8 @@ Directly addressing the competition's prompt for *"habits tied to a recurring co
 
 ---
 
-### 3. Best First Five Minutes: 1-Click 60-Second Judge Guided Demo
-*Targeting the **$25,000 Best First Five Minutes Special Award***
 
-Judges must evaluate dozens of submissions quickly. AetherDesk provides a friction-free onboarding journey:
-- **⚡ 1-Click Guided Demo Button:** Clicking the glowing emerald header button initiates an automated 60-second choreographic showcase:
-  1. Frames the 24-inch lap dock at a natural $25^\circ$ downward gaze.
-  2. Demonstrates the micro-pinch grab and snaps a card into Slot 1.
-  3. Summons the wrist-anchored Palm Palette with a procedural audio swoosh.
-  4. Glides a complex goal card into Aether's pedestal, triggering real-time goal decomposition.
-  5. Executes Auto-Organize and Executive Synthesis, validating all 4 onboarding steps with a celebratory chime.
-- **Self-Paced Onboarding Checklist:** A dynamic HUD card that updates `[0/4 DONE]` to `[4/4 VERIFIED]` as users experiment with gestures.
-
----
-
-### 4. Best Accessibility Forward: Ergonomic Envelope Calibration
-*Targeting the **$25,000 Best Accessibility Forward Special Award***
+### 3. Best Accessibility Forward: Ergonomic Envelope Calibration
 
 - **Wheelchair & Recliner Calibration:** The **♿ Ergonomics** drawer provides live slider adjustment for Console Elevation ($\pm 12\text{ cm}$) and Console Reach ($\pm 15\text{ cm}$). Whether seated in an office task chair, a deep sofa, a recliner, or a wheelchair, the lap console aligns precisely to the user's resting arm position.
 - **Low-Motor Strain Micro-Gestures:** Interaction relies on $< 2.4\text{ cm}$ pinches, requiring zero large shoulder reaches or arm extensions.
@@ -441,20 +424,20 @@ npx vercel --prod
 | Form Field | Exact Value |
 |---|---|
 | **Submission Name** | `AetherDesk: Seated Hands-First Spatial Agentic Workspace` |
-| **Track** | `Productivity` ($70,000 Top Prize) |
+| **Track** | `Productivity`|
 | **Division** | `New Experience` |
 | **Submission Tagline (138 / 140 Chars)** | `Seated, hands-first spatial workspace turning complex thoughts into tactile data capsules guided by an embodied autonomous AI agent.` |
 | **Target Special Awards** | `Best Agentic Interaction ($25k)` · `Best Reason to Come Back ($25k)` · `Best First Five Minutes ($25k)` · `Best Accessibility Forward Experience ($25k)` |
 
-### Hand Interactions Statement (Devpost Form Field)
+### Hand Interactions Statement
 > AetherDesk eliminates arm fatigue by constraining interaction to a 24-inch semi-sphere above the lap. Using WebXR Hand Tracking with a 25-joint articulated visual skeleton, users employ micro-pinches to grab data capsules and turn their non-dominant palm face-up to summon a wrist palette. Cards tossed toward the embodied agent trigger autonomous spatial synthesis. Zero controllers required.
 
-### 500-Word Project Description (Devpost Form Field)
+### 500-Word Project Description
 ```markdown
 ### 1. Inspiration
 Spatial computing promised infinite monitors, but reality gave us "Gorilla Arm" shoulder fatigue in minutes. Reaching for floating 2D browser windows 1.5 meters away violates human biomechanics. We asked: What if spatial productivity respected the body? What if your entire workspace lived in an ergonomic 24-inch tactile micro-sphere above your lap, completely controller-free, operating seamlessly in a coach airplane seat or a morning commute?
 
-### 2. How We Built It
+### 2. How I Built It
 Built 100% from scratch for Meta VR Start 2026, AetherDesk combines:
 • WebXR Hand Tracking API: 25-joint articulated cybernetic hand skeleton, 2.4cm micro-pinch detection, and palm-up wrist palette summoning.
 • Ergonomic 24-inch Curved Lap Console: Three.js magnetic slots snapping 3D data capsules (Tasks, Notes, Ideas, Briefs) directly within the seated rest zone.
@@ -470,34 +453,6 @@ Built 100% from scratch for Meta VR Start 2026, AetherDesk combines:
 ### 4. Future Plans
 Expanding multi-user collaborative lap docking over WebRTC, integrating local on-device small language models (SLMs) via WebGPU, and shipping directly as an optimized PWA on the Meta Quest Store.
 ```
-
-### 3-Minute Demonstration Video Storyboard & Script
-```text
-[0:00 - 0:25] THE HOOK & ERGONOMIC PROBLEM
-• Visual: User seated comfortably in chair, putting on Quest 3. Hands rest on lap/armrests.
-• VO: "Spatial productivity apps promised infinite screens, but reaching for floating windows causes shoulder fatigue in minutes. Meet AetherDesk—the seated, hands-first spatial workspace designed for Meta Quest 3 and Meta VR Glasses."
-
-[0:25 - 0:55] AIRPLANE SEAT ERGONOMICS & HAND TRACKING
-• Visual: 24-inch curved console glowing softly above lap. 25-joint articulated hand skeleton tracking finger movement.
-• VO: "Every interaction operates within a two-foot radius. Notice how elbows stay anchored. Using natural micro-pinches under 2.4 centimeters, we lift and inspect tangible 3D data capsules with instant tactile audio feedback."
-
-[0:55 - 1:35] PALM PALETTE & TACTILE DOCKING
-• Visual: Turn non-dominant left palm face-up. Holographic radial palette blooms over wrist. User micro-taps '+ Task' and dictates thought.
-• VO: "Turning your palm face-up summons the wrist palette. Voice thoughts instantly materialize into structured 3D cards, magnetically snapping into curved lap slots."
-
-[1:35 - 2:20] BEST AGENTIC INTERACTION: EMBODIED CO-PILOT
-• Visual: Drag a goal capsule and toss it toward Aether's pedestal. The avatar's gyroscopic rings accelerate into Cyber Amber (THINKING), emit harmonic resonance, and shatter the goal into two sequential subtasks in Emerald (ACTUATING). User hits 'Synthesize' to generate an Executive Rollup.
-• VO: "Aether isn't a 2D chatbot sidebar. It is an embodied co-pilot that perceives spatial proximity, autonomously decomposes complex projects, and synthesizes executive rollups directly in 3D space."
-
-[2:20 - 2:50] DAILY RETENTION & ACCESSIBILITY
-• Visual: Switch between Morning Triage, Deep Focus Sprint (ambient dimming), and Evening Wind-Down. Show 1-click Markdown export to Obsidian/Notion.
-• VO: "With daily habit presets, session streak tracking, and height calibration for wheelchair accessibility, AetherDesk gives you a compelling reason to come back every day."
-
-[2:50 - 3:00] CONCLUSION
-• VO: "Hands-first, zero controllers, 100% free and offline. The future of VR productivity is in your hands."
-```
-
----
 
 ## 📄 License
 
