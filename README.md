@@ -153,17 +153,6 @@ AetherDesk targets the **Best Agentic Interaction** prize with spatial agency ra
 
 ---
 
-## ⚡ First Five Minutes & Retention Loop
-
-### First Five Minutes
-
-| Time | Experience |
-|------|------------|
-| `00:00 – 00:30` | Instant load in Meta Quest Browser (under 3 s). The curved lap dock appears over passthrough or an obsidian environment. |
-| `00:30 – 01:15` | Pinch index and thumb to pick up a pre-loaded card; procedural tactile audio confirms the grab. |
-| `01:15 – 02:30` | Turn the left palm face-up to spawn the Palette Ring. Tap **Voice Note** and speak an idea. |
-| `02:30 – 03:45` | Drag the card and toss it toward Aether. Rings spin, chimes sound, and an executive plan materializes. |
-| `03:45 – 05:00` | Tap **Export Session** to download clean Markdown. Full loop, zero arm fatigue. |
 
 ### Daily Retention Loop
 
